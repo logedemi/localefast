@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inbox - Email Temporary</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-inbox"></i>
+                <h1>Inbox<span class="highlight">.id</span></h1>
+            </div>
+            <nav class="nav">
+                <a href="/"><i class="fas fa-home"></i> Home</a>
+                <a href="/dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                <button class="btn-primary" onclick="goHome()">
+                    <i class="fas fa-plus"></i> Email Baru
+                </button>
+            </nav>
+        </header>
+
+        <!-- Inbox Header -->
+        <div class="inbox-header" id="inboxHeader">
+            <div class="header-content">
+                <div class="email-display-large">
+                    <div class="email-avatar-large" id="emailAvatar">T</div>
+                    <div>
+                        <h2 id="currentEmail">Loading...</h2>
+                        <div class="email-meta">
+                            <span class="meta-item" id="emailCreated">
+                                <i class="fas fa-calendar-plus"></i> Dibuat: Loading...
+                            </span>
+                            <span class="meta-item" id="emailExpires">
+                                <i class="fas fa-clock"></i> Expires: Loading...
+                            </span>
+                            <span class="meta-item" id="messageCount">
+                                <i class="fas fa-envelope"></i> Pesan: 0
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn-secondary" onclick="refreshInbox()" id="refreshBtn">
+                        <i class="fas fa-redo"></i> Refresh
+                    </button>
+                    <button class="btn-danger" onclick="deleteThisEmail()">
+                        <i class="fas fa-trash"></i> Hapus Email
+                    </button>
+                </div>
+            </div>
+            
+            <div class="inbox-stats" id="inboxStats">
+                <div class="stat-card">
+                    <i class="fas fa-envelope-open-text"></i>
+                    <div>
+                        <div class="stat-number" id="totalMessages">0</div>
+                        <div class="stat-label">Total Pesan</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <div class="stat-number" id="unreadMessages">0</div>
+                        <div class="stat-label">Belum Dibaca</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-history"></i>
+                    <div>
+                        <div class="stat-number" id="expiryHours">24</div>
+                        <div class="stat-label">Jam Tersisa</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Messages Container -->
+        <div class="messages-container">
+            <div class="messages-sidebar" id="messagesList">
+                <!-- Messages will be loaded here -->
+                <div class="empty-state">
+                    <i class="fas fa-inbox fa-3x"></i>
+                    <p>Tidak ada pesan</p>
+                    <p class="empty-subtitle">Email yang dikirim ke alamat ini akan muncul di sini</p>
+                </div>
+            </div>
+            
+            <div class="message-viewer" id="messageViewer">
+                <div class="viewer-empty">
+                    <i class="fas fa-envelope-open fa-3x"></i>
+                    <h3>Pilih pesan untuk dibaca</h3>
+                    <p>Klik pada pesan di sebelah kiri untuk membaca kontennya</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- How to Use -->
+        <div class="info-card">
+            <h3><i class="fas fa-question-circle"></i> Cara Menggunakan Email Ini</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <i class="fas fa-copy"></i>
+                    <h4>Salin Alamat Email</h4>
+                    <p>Salin alamat email di atas dan gunakan untuk registrasi layanan online</p>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-sync"></i>
+                    <h4>Refresh Secara Berkala</h4>
+                    <p>Klik tombol Refresh untuk memeriksa email baru</p>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>Aman & Privat</h4>
+                    <p>Email akan otomatis terhapus setelah 24 jam</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- API Info -->
+        <div class="api-card">
+            <h3><i class="fas fa-code"></i> API Access</h3>
+            <p>Gunakan API berikut untuk mengakses inbox secara programmatic:</p>
+            <div class="code-block">
+                <code id="apiUrl">Loading API URL...</code>
+                <button class="btn-copy" onclick="copyApiUrl()">
+                    <i class="far fa-copy"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2024 TempEmail Service. Hosted on Netlify.</p>
+            <p>Email ini akan otomatis terhapus dalam <span id="footerExpiry">24</span> jam</p>
+        </footer>
+
+        <!-- Toast -->
+        <div id="toast" class="toast"></div>
+    </div>
+
+    <script src="/inbox.js"></script>
+</body>
+</html>
