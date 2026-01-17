@@ -1,0 +1,21 @@
+{
+  "name": "temp-email-service",
+  "version": "1.0.0",
+  "description": "Temporary Email Service with Custom Domain",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo 'Build completed'",
+    "dev": "netlify dev",
+    "deploy": "netlify deploy --prod"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.9",
+    "crypto": "latest"
+  },
+  "devDependencies": {
+    "@netlify/functions": "^1.6.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
