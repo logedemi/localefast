@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Email Temporary</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-tachometer-alt"></i>
+                <h1>Dashboard<span class="highlight">.id</span></h1>
+            </div>
+            <nav class="nav">
+                <a href="/"><i class="fas fa-home"></i> Home</a>
+                <a href="/inbox.html"><i class="fas fa-inbox"></i> Inbox</a>
+                <a href="/dashboard.html" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                <button class="btn-primary" onclick="goHome()">
+                    <i class="fas fa-plus"></i> Email Baru
+                </button>
+            </nav>
+        </header>
+
+        <!-- Stats Overview -->
+        <section class="stats-overview">
+            <h2 class="section-title">Statistik Layanan</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-box primary">
+                    <div class="stat-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="totalEmailsCreated">0</div>
+                        <div class="stat-label">Total Email Dibuat</div>
+                    </div>
+                </div>
+                
+                <div class="stat-box success">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="activeEmails">0</div>
+                        <div class="stat-label">Email Aktif</div>
+                    </div>
+                </div>
+                
+                <div class="stat-box warning">
+                    <div class="stat-icon">
+                        <i class="fas fa-envelope-open-text"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="totalMessages">0</div>
+                        <div class="stat-label">Total Pesan</div>
+                    </div>
+                </div>
+                
+                <div class="stat-box danger">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="expiredEmails">0</div>
+                        <div class="stat-label">Email Expired</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Activity -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2><i class="fas fa-history"></i> Aktivitas Terbaru</h2>
+                <button class="btn-text" onclick="refreshDashboard()">
+                    <i class="fas fa-redo"></i> Refresh
+                </button>
+            </div>
+            
+            <div class="activity-list" id="activityList">
+                <!-- Activities will be loaded here -->
+                <div class="empty-state">
+                    <i class="fas fa-history fa-3x"></i>
+                    <p>Belum ada aktivitas</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Saved Emails -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2><i class="fas fa-bookmark"></i> Email Tersimpan</h2>
+                <button class="btn-text" onclick="clearSavedEmails()">
+                    <i class="fas fa-trash"></i> Hapus Semua
+                </button>
+            </div>
+            
+            <div class="saved-emails" id="savedEmails">
+                <!-- Saved emails will be loaded here -->
+                <div class="empty-state">
+                    <i class="fas fa-bookmark fa-3x"></i>
+                    <p>Belum ada email tersimpan</p>
+                    <p>Klik "Simpan" pada email untuk menyimpannya di sini</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- System Info -->
+        <section class="dashboard-section">
+            <h2><i class="fas fa-info-circle"></i> Informasi Sistem</h2>
+            
+            <div class="system-info">
+                <div class="info-card">
+                    <h3><i class="fas fa-server"></i> Server Status</h3>
+                    <div class="status-indicator active">
+                        <span class="status-dot"></span>
+                        Online & Operational
+                    </div>
+                    <p class="info-text">Layanan berjalan normal</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3><i class="fas fa-database"></i> Penyimpanan</h3>
+                    <div class="storage-info">
+                        <div class="storage-bar">
+                            <div class="storage-fill" style="width: 25%"></div>
+                        </div>
+                        <div class="storage-text">25% digunakan</div>
+                    </div>
+                    <p class="info-text">Penyimpanan in-memory, data reset setiap 24 jam</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3><i class="fas fa-shield-alt"></i> Keamanan</h3>
+                    <ul class="security-list">
+                        <li><i class="fas fa-check success-icon"></i> Auto-delete setelah 24 jam</li>
+                        <li><i class="fas fa-check success-icon"></i> No permanent storage</li>
+                        <li><i class="fas fa-check success-icon"></i> End-to-end encryption</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- API Documentation -->
+        <section class="dashboard-section">
+            <h2><i class="fas fa-code"></i> Dokumentasi API</h2>
+            
+            <div class="api-docs">
+                <div class="api-endpoint">
+                    <div class="endpoint-header">
+                        <span class="endpoint-method get">GET</span>
+                        <code class="endpoint-url">/.netlify/functions/create-email</code>
+                    </div>
+                    <p class="endpoint-desc">Membuat email temporary baru</p>
+                </div>
+                
+                <div class="api-endpoint">
+                    <div class="endpoint-header">
+                        <span class="endpoint-method get">GET</span>
+                        <code class="endpoint-url">/.netlify/functions/check-inbox?email=EMAIL</code>
+                    </div>
+                    <p class="endpoint-desc">Mengecek inbox dari email tertentu</p>
+                </div>
+                
+                <div class="api-endpoint">
+                    <div class="endpoint-header">
+                        <span class="endpoint-method post">POST</span>
+                        <code class="endpoint-url">/.netlify/functions/delete-email</code>
+                    </div>
+                    <p class="endpoint-desc">Menghapus email dan semua pesannya</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2024 TempEmail Service. Built with Netlify Functions.</p>
+            <p>Uptime: <span id="uptime">100%</span> | Version: 1.0.0</p>
+        </footer>
+    </div>
+
+    <script src="/dashboard.js"></script>
+</body>
+</html>
