@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Temporary - Buat Email Sementara Gratis</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="https://img.icons8.com/color/48/000000/email.png">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-envelope-open-text"></i>
+                <h1>TempMail<span class="highlight">.id</span></h1>
+            </div>
+            <nav class="nav">
+                <a href="/" class="active"><i class="fas fa-home"></i> Home</a>
+                <a href="/dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                <a href="/privacy.html"><i class="fas fa-shield-alt"></i> Privacy</a>
+                <button class="btn-nav" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i> Theme
+                </button>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h2><span class="highlight">Buat Email Sementara</span> dalam 1 Detik</h2>
+                <p class="hero-subtitle">Email disposable yang otomatis terhapus setelah 24 jam. Tanpa registrasi, tanpa spam!</p>
+                
+                <div class="domain-display">
+                    <i class="fas fa-globe"></i>
+                    <span class="domain-text" id="domainDisplay">@temp.yourdomain.com</span>
+                </div>
+                
+                <div class="hero-actions">
+                    <button class="btn-primary btn-large" onclick="createNewEmail()">
+                        <i class="fas fa-plus-circle"></i> Buat Email Baru
+                    </button>
+                    <button class="btn-secondary btn-large" onclick="showAccessForm()">
+                        <i class="fas fa-inbox"></i> Akses Inbox
+                    </button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://img.icons8.com/clouds/300/000000/email.png" alt="Email Illustration">
+            </div>
+        </section>
+
+        <!-- Email Generator -->
+        <section class="generator-card">
+            <div class="card-header">
+                <h3><i class="fas fa-bolt"></i> Generator Cepat</h3>
+                <button class="btn-icon" onclick="refreshGenerator()" title="Refresh">
+                    <i class="fas fa-redo"></i>
+                </button>
+            </div>
+            
+            <div class="generator-controls">
+                <div class="input-group">
+                    <label for="emailPrefix"><i class="fas fa-user"></i> Custom Username (Opsional)</label>
+                    <input type="text" id="emailPrefix" placeholder="namaanda">
+                    <span class="input-suffix" id="domainSuffix">@temp.yourdomain.com</span>
+                </div>
+                
+                <div class="input-group">
+                    <label for="emailLifetime"><i class="fas fa-clock"></i> Masa Aktif</label>
+                    <select id="emailLifetime">
+                        <option value="1">1 Jam</option>
+                        <option value="6">6 Jam</option>
+                        <option value="24" selected>24 Jam</option>
+                        <option value="72">3 Hari</option>
+                    </select>
+                </div>
+                
+                <button class="btn-primary" onclick="generateCustomEmail()">
+                    <i class="fas fa-magic"></i> Generate Custom Email
+                </button>
+            </div>
+        </section>
+
+        <!-- Result Section -->
+        <section class="result-section" id="resultSection" style="display: none;">
+            <div class="result-card">
+                <div class="result-header">
+                    <h3><i class="fas fa-check-circle success-icon"></i> Email Berhasil Dibuat!</h3>
+                    <button class="btn-icon" onclick="copyAllCredentials()" title="Salin Semua">
+                        <i class="fas fa-copy"></i> Salin
+                    </button>
+                </div>
+                
+                <div class="credentials">
+                    <div class="credential-item">
+                        <span class="credential-label"><i class="fas fa-envelope"></i> Alamat Email:</span>
+                        <div class="credential-value">
+                            <input type="text" id="generatedEmail" readonly>
+                            <button class="btn-copy" onclick="copyEmail()">
+                                <i class="far fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="credential-item">
+                        <span class="credential-label"><i class="fas fa-key"></i> Password:</span>
+                        <div class="credential-value">
+                            <input type="password" id="generatedPassword" readonly value="••••••••••••">
+                            <button class="btn-copy" onclick="copyPassword()">
+                                <i class="far fa-copy"></i>
+                            </button>
+                            <button class="btn-icon" onclick="togglePassword()">
+                                <i class="far fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="credential-item">
+                        <span class="credential-label"><i class="fas fa-history"></i> Kadaluarsa:</span>
+                        <span class="credential-value" id="expiryTime">24 jam dari sekarang</span>
+                    </div>
+                </div>
+                
+                <div class="result-actions">
+                    <button class="btn-success" onclick="goToInbox()">
+                        <i class="fas fa-inbox"></i> Buka Inbox
+                    </button>
+                    <button class="btn-secondary" onclick="saveEmail()">
+                        <i class="fas fa-save"></i> Simpan
+                    </button>
+                    <button class="btn-danger" onclick="deleteEmail()">
+                        <i class="fas fa-trash"></i> Hapus
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Inbox Access Form -->
+        <section class="access-form" id="accessForm" style="display: none;">
+            <div class="form-card">
+                <h3><i class="fas fa-sign-in-alt"></i> Akses Inbox</h3>
+                <p>Masukkan email sementara Anda untuk mengakses inbox</p>
+                
+                <div class="input-group">
+                    <label for="accessEmail"><i class="fas fa-envelope"></i> Alamat Email</label>
+                    <input type="email" id="accessEmail" placeholder="nama@temp.yourdomain.com">
+                </div>
+                
+                <div class="input-group">
+                    <label for="accessPassword"><i class="fas fa-key"></i> Password (jika ada)</label>
+                    <input type="password" id="accessPassword" placeholder="Password (opsional)">
+                </div>
+                
+                <div class="form-actions">
+                    <button class="btn-primary" onclick="accessInbox()">
+                        <i class="fas fa-sign-in-alt"></i> Masuk ke Inbox
+                    </button>
+                    <button class="btn-secondary" onclick="hideAccessForm()">
+                        Batal
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section class="features-section">
+            <h2 class="section-title">Mengapa Memilih Layanan Kami?</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon security">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>100% Aman & Privat</h4>
+                    <p>Email otomatis terhapus setelah 24 jam. Tidak ada data yang disimpan permanen.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon speed">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h4>Instan & Gratis</h4>
+                    <p>Buat email dalam 1 detik tanpa registrasi. Sepenuhnya gratis tanpa batasan.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon domain">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h4>Domain Terpercaya</h4>
+                    <p>Menggunakan domain sendiri sehingga tidak terblokir oleh layanan lainnya.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon noads">
+                        <i class="fas fa-ad"></i>
+                    </div>
+                    <h4>Tanpa Iklan</h4>
+                    <p>Pengalaman bersih tanpa iklan yang mengganggu. Fokus pada fungsi email.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Emails -->
+        <section class="recent-section" id="recentSection">
+            <div class="section-header">
+                <h2><i class="fas fa-history"></i> Email Terakhir Anda</h2>
+                <button class="btn-text" onclick="clearHistory()">Hapus Riwayat</button>
+            </div>
+            
+            <div class="recent-emails" id="recentEmails">
+                <!-- Will be populated by JavaScript -->
+                <div class="empty-state">
+                    <i class="fas fa-inbox fa-3x"></i>
+                    <p>Belum ada email yang dibuat</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-envelope-open-text"></i>
+                    <h3>TempMail<span class="highlight">.id</span></h3>
+                    <p>Layanan email sementara gratis sejak 2024</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Tautan Cepat</h4>
+                    <a href="/"><i class="fas fa-home"></i> Home</a>
+                    <a href="/dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    <a href="/privacy.html"><i class="fas fa-shield-alt"></i> Privacy Policy</a>
+                    <a href="#" onclick="showApiInfo()"><i class="fas fa-code"></i> API Docs</a>
+                </div>
+                
+                <div class="footer-stats">
+                    <h4>Statistik</h4>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <i class="fas fa-envelope"></i>
+                            <span id="totalEmails">0</span>
+                            <small>Email Aktif</small>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-clock"></i>
+                            <span>24</span>
+                            <small>Jam Expired</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 TempMail.id - Layanan Email Sementara. Hosted on Netlify.</p>
+                <div class="footer-social">
+                    <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Toast Notification -->
+        <div id="toast" class="toast"></div>
+    </div>
+
+    <script src="/app.js"></script>
+</body>
+</html>
